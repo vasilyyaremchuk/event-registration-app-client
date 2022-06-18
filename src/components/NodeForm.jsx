@@ -1,9 +1,27 @@
 import React, {useState} from "react";
 import { getAuthClient } from '../utils/auth';
+import DatePicker from "react-datepicker";
+
+// import required css from library
+import "react-datepicker/dist/react-datepicker.css";
+
+Date.prototype.toAPI = function() {
+  var mm = this.getMonth() + 1; // getMonth() is zero-based
+  var dd = this.getDate();
+
+  return [this.getFullYear(),
+          '-',
+          (mm>9 ? '' : '0') + mm,
+          '-',
+          (dd>9 ? '' : '0') + dd,
+          'T12:00:00+00:00', // skip event time
+         ].join('');
+};
 
 const auth = getAuthClient();
 
 const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
+
   const [isSubmitting, setSubmitting] = useState(false);
 
   const [result, setResult] = useState({
@@ -12,10 +30,15 @@ const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
     message: '',
   });
 
+  const now = new Date();
+
   const defaultValues = {
     title: title ? title : '',
-    field_eventdate: field_eventdate ? field_eventdate : '',
+    field_eventdate: field_eventdate ? field_eventdate : now.toAPI(),
   };
+
+  const [startDate, setStartDate] = useState(new Date(defaultValues.field_eventdate));
+
   const [values, setValues] = useState(defaultValues);
 
   const handleInputChange = (event) => {
@@ -34,7 +57,7 @@ const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
         "type": "node--event",
         "attributes": {
           "title": `${values.title}`,
-          "field_eventdate": `${values.field_eventdate}`
+          "field_eventdate": `${startDate.toAPI()}`
         }
       }
     };
@@ -125,18 +148,17 @@ const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
           onChange={handleInputChange}
         />
         <br/>
-        <input
+        <DatePicker
+          dateFormat="yyyy-MM-dd"
+          selected={startDate}
           name="field_eventdate"
-          type="text"
-          value={values.field_eventdate}
-          placeholder="Event Date"
-          onChange={handleInputChange}
+          onChange={date => setStartDate(date)}
         />
         <br/>
         <input
           name="submit"
           type="submit"
-          value={id ? 'Edit existing event' : 'Add new event'}
+          value={id ? 'Save changes' : 'Add new event'}
         />
       </form>
     </div>
