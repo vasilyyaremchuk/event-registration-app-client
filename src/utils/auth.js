@@ -7,6 +7,8 @@
  * const auth = getAuthClient(optionalConfig);
  */
 
+import serverConfig from "../config/config";
+
 const refreshPromises = [];
 
 /**
@@ -18,17 +20,19 @@ const refreshPromises = [];
  *   Returns an object of functions with $config injected.
  */
 export function getAuthClient(config = {}) {
+  const serverConfiguration = serverConfig();
+  console.log();
   const defaultConfig = {
     // Base URL of your Drupal site.
-    base: 'http://ffw.lndo.site',
+    base: serverConfiguration.base,
     // Name to use when storing the token in localStorage.
-    token_name: 'drupal-oauth-token',
+    token_name: serverConfiguration.token_name,
     // OAuth client ID - get from Drupal.
-    client_id: '53521cf9-168d-4f48-96d3-d88f47f83f05',
+    client_id: serverConfiguration.client_id,
     // OAuth client secret - set in Drupal.
-    client_secret: 'abc123',
+    client_secret: serverConfiguration.client_secret,
     // Drupal user role related to this OAuth client.
-    scope: 'api',
+    scope: serverConfiguration.scope,
     // Margin of time before the current token expires that we should force a
     // token refresh.
     expire_margin: 0,

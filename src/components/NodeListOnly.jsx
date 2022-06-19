@@ -30,9 +30,8 @@ const NodeListOnly = () => {
     // This should point to your local Drupal instance. Alternatively, for React
     // applications embedded in a Drupal theme or module this could also be set
     // to a relative path.
-    const API_ROOT = '/jsonapi/';
-    const url = `${API_ROOT}node/event?fields[node--event]=id,drupal_internal__nid,title,field_eventdate&sort=-created&page[limit]=10`;
-
+    const url = `/jsonapi/node/event?fields[node--event]=id,drupal_internal__nid,title,field_eventdate&sort=-created&page[limit]=10`;
+    console.log(url);
     const headers = new Headers({
       Accept: 'application/vnd.api+json',
     });
