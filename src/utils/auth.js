@@ -21,7 +21,6 @@ const refreshPromises = [];
  */
 export function getAuthClient(config = {}) {
   const serverConfiguration = serverConfig();
-  console.log();
   const defaultConfig = {
     // Base URL of your Drupal site.
     base: serverConfiguration.base,

@@ -1,11 +1,9 @@
 import React, {useState} from "react";
-import { getAuthClient } from '../utils/auth';
 import serverConfig from "../config/config";
 
-const auth = getAuthClient();
+const serverConfiguration = serverConfig();
 
-const ParticipantForm = ({id, drupal_internal__nid}) => {
-
+const ParticipantForm = ({id}) => {
   const [isSubmitting, setSubmitting] = useState(false);
 
   const [result, setResult] = useState({
@@ -14,38 +12,32 @@ const ParticipantForm = ({id, drupal_internal__nid}) => {
     message: '',
   });
 
-/*  const defaultValues = {
-    title: title ? title : '',
-    field_eventdate: field_eventdate ? field_eventdate : now.toAPI(),
-  };
-
-  const [startDate, setStartDate] = useState(new Date(defaultValues.field_eventdate));
-
-  const [values, setValues] = useState(defaultValues);*/
-
-  /*const handleInputChange = (event) => {
-    const {name, value} = event.target;
-    setValues({...values, [name]: value});
-  };*/
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [interests, setInterests] = useState('');
 
   const handleSubmit = (event) => {
     setSubmitting(true);
     event.preventDefault();
 
-/*    const fetchUrl = id ? `/jsonapi/node/event/${id}` : `/jsonapi/node/event`;
+    const fetchUrl = serverConfiguration.base + `/jsonapi/participant/event_participant`; // TBD: use ECK instead Node
+    //const fetchUrl = serverConfiguration.base + `/jsonapi/node/participant`;
 
     let data = {
       "data": {
-        "type": "node--event",
+        "type": "participant--event_participant",
         "attributes": {
-          "title": `${values.title}`,
-          "field_eventdate": `${startDate.toAPI()}`
+          "field_event": `${id}`,
+          "field_first_name": `${first_name}`,
+          "field_last_name": `${last_name}`,
+          "field_email": `${email}`,
+          "field_interests": `${interests}`
         }
       }
     };
-
     const fetchOptions = {
-      // Use HTTP PATCH for edits, and HTTP POST to create new events.
+      // HTTP POST to create new events.
       method: 'POST',
       headers: new Headers({
         'Accept': 'application/vnd.api+json',
@@ -57,7 +49,7 @@ const ParticipantForm = ({id, drupal_internal__nid}) => {
     };
 
     try {
-      auth.fetchWithAuthentication(fetchUrl, fetchOptions)
+      fetch(fetchUrl, fetchOptions)
         .then((response) => response.json())
         .then((data) => {
           // We're done processing.
@@ -72,19 +64,11 @@ const ParticipantForm = ({id, drupal_internal__nid}) => {
             });
             return false;
           }
-
-          // If the request was successful, remove existing form values and
-          // display a success message.
-          setValues(defaultValues);
-          if (data.data.id) {
+          else {
             setResult({
               success: true,
-              message: <div className="messages messages--status">{(id ? 'Updated' : 'Added')}: <em>{data.data.attributes.title}</em></div>,
+              message: <div className="messages messages--status">Your participation request was sent!</div>,
             });
-
-            if (typeof onSuccess === 'function') {
-              onSuccess(data.data);
-            }
           }
         })
         .catch((error) => {
@@ -94,7 +78,7 @@ const ParticipantForm = ({id, drupal_internal__nid}) => {
     } catch (error) {
       console.log('Error while contacting API', error);
       setSubmitting(false);
-    }*/
+    }
   };
 
   // If the form is currently being processed display a spinner.
@@ -119,24 +103,28 @@ const ParticipantForm = ({id, drupal_internal__nid}) => {
           name="first_name"
           type="text"
           placeholder="First Name"
+          onChange={(e) => setFirstName(e.target.value)}
         />
         <br/>
         <input
           name="last_name"
           type="text"
           placeholder="Last Name"
+          onChange={(e) => setLastName(e.target.value)}
         />
         <br/>
         <input
           name="email"
-          type="text"
+          type="email"
           placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
         />
         <br/>
         <input
           name="interests"
           type="text"
           placeholder="Interests"
+          onChange={(e) => setInterests(e.target.value)}
         />
         <br/>
         <input

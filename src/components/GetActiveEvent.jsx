@@ -70,7 +70,7 @@ const GetActiveEvent = () => {
       {content ? (
         <>
           <NodeItem key={content[0].id} {...content[0].attributes}/>
-          <ParticipantForm key={content[0].id} {...content[0].attributes}/>
+          <ParticipantForm id={content[0].id} />
         </>
       ) : (
         <NoData />
