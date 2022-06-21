@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router';
-import NodeDelete from "./NodeDelete";
+import { useParams } from "react-router-dom";
+import ParticipantDelete from "./ParticipantDelete";
 import { getAuthClient } from "../utils/auth";
+import serverConfig from "../config/config";
+
+const serverConfiguration = serverConfig();
 
 const auth = getAuthClient();
 
@@ -36,7 +39,7 @@ function isValidData(data) {
  * @param {function} updateContent
  *   useState function to update contentList.
  */
-const ParticipantItem = ({id, drupal_internal__id, field_first_name, field_last_name, field_email, field_interests}) => {
+const ParticipantItem = ({id, drupal_internal__id, field_first_name, field_last_name, field_email, field_interests, contentList, updateContent}) => {
 /*  const [showAdminOptions, setShowAdminOptions] = useState(false);
 
   function handleClick(event) {
@@ -50,14 +53,14 @@ const ParticipantItem = ({id, drupal_internal__id, field_first_name, field_last_
     console.log('index', {idx, data, content: contentList});
     contentList[idx] = data;
     updateContent([...contentList]);
-  }
+  }*/
 
   function onDeleteSuccess(id) {
     // Remove the deleted item from the list.
     const list = contentList.filter(item => item.id !== id);
     updateContent([...list]);
   }
-
+/*
   // Show the item with admin options.
   if (showAdminOptions) {
     return (
@@ -95,16 +98,18 @@ const ParticipantItem = ({id, drupal_internal__id, field_first_name, field_last_
       {" -- "}
       {field_interests}
       {" -- "}
-      {field_first_name}
-      <button>
-          delete
-      </button>
+      <ParticipantDelete
+          id={id}
+          field_first_name={field_first_name}
+          field_last_name={field_last_name}
+          onSuccess={onDeleteSuccess}
+        />
     </div>
   );
 };
 
 /**
- * Component to render when there are no events to display.
+ * Component to render when there are no participants to display.
  */
 const NoParticipants = () => (
   <div>No participants found.</div>
@@ -121,15 +126,16 @@ const Participants = () => {
   const [content, updateContent] = useState([]);
   const [filter, setFilter] = useState(null);
 
-  //auth.login('admin', 'admin');
+  let { eid } = useParams();
 
   useEffect(() => {
     // This should point to your local Drupal instance. Alternatively, for React
     // applications embedded in a Drupal theme or module this could also be set
     // to a relative path.
-    /*const url = `/jsonapi/participant/event_participant?fields[participant--event_participant]=id,drupal_internal__id,field_event,field_first_name,field_last_name,field_email,field_interests,field_event&filter[field_event]=`
-    + {this.props.match.params.eid} + `&sort=-created&page[limit]=100`;*/
-    const url = `/jsonapi/participant/event_participant?fields[participant--event_participant]=id,drupal_internal__id,field_event,field_first_name,field_last_name,field_email,field_interests,field_event&sort=-created&page[limit]=100`;
+    const url = `/jsonapi/participant/event_participant?fields[participant--event_participant]=id,drupal_internal__id,field_event,field_first_name,field_last_name,field_email,field_interests,field_event&filter[field_event]=`
+    + eid + `&sort=-created&page[limit]=100`;
+    console.log(url);
+    //const url = `/jsonapi/participant/event_participant?fields[participant--event_participant]=id,drupal_internal__id,field_event,field_first_name,field_last_name,field_email,field_interests,field_event&sort=-created&page[limit]=100`;
     const headers = new Headers({
       Accept: 'application/vnd.api+json',
     });
@@ -192,6 +198,8 @@ const Participants = () => {
               />
             ))
           }
+          <hr/>
+          <a href={ serverConfiguration.base + '/participants/' + eid } target="_blank">Export CSV</a>
         </>
       ) : (
         <NoParticipants />
