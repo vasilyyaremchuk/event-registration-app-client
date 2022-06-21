@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-//import ParticipantForm from "./components/ParticipantForm";
 import GetActiveEvent from "./components/GetActiveEvent";
 import LoginForm from "./components/LoginForm";
 import NodeReadWrite from './components/NodeReadWrite';
+import Participants from './components/Participants';
 
 export default function App() {
   return (
@@ -17,6 +17,11 @@ export default function App() {
             <>
               <LoginForm />
               <NodeReadWrite />
+            </>
+          } />
+          <Route path="/participants/:eid" element={
+            <>
+              <Participants />
             </>
           } />
         </Routes>

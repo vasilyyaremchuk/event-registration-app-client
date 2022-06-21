@@ -102,28 +102,31 @@ const ParticipantForm = ({id}) => {
         <input
           name="first_name"
           type="text"
-          placeholder="First Name"
+          placeholder="First Name (required)"
           onChange={(e) => setFirstName(e.target.value)}
+          required
         />
         <br/>
         <input
           name="last_name"
           type="text"
-          placeholder="Last Name"
+          placeholder="Last Name (required)"
           onChange={(e) => setLastName(e.target.value)}
+          required
         />
         <br/>
         <input
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="Email (required)"
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <br/>
         <input
           name="interests"
           type="text"
-          placeholder="Interests"
+          placeholder="Interests (optional)"
           onChange={(e) => setInterests(e.target.value)}
         />
         <br/>

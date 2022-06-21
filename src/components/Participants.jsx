@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NodeAdd from "./NodeAdd";
-import NodeEdit from "./NodeEdit";
+import { useParams } from 'react-router';
 import NodeDelete from "./NodeDelete";
 import { getAuthClient } from "../utils/auth";
 
@@ -37,8 +36,8 @@ function isValidData(data) {
  * @param {function} updateContent
  *   useState function to update contentList.
  */
-const NodeItem = ({id, drupal_internal__nid, title, field_eventdate, contentList, updateContent}) => {
-  const [showAdminOptions, setShowAdminOptions] = useState(false);
+const ParticipantItem = ({id, drupal_internal__id, field_first_name, field_last_name, field_email, field_interests}) => {
+/*  const [showAdminOptions, setShowAdminOptions] = useState(false);
 
   function handleClick(event) {
     event.preventDefault();
@@ -83,20 +82,23 @@ const NodeItem = ({id, drupal_internal__nid, title, field_eventdate, contentList
         <hr/>
       </div>
     );
-  }
+  }*/
 
-  // Show just the item.
+  // Show just the item. // TBD: delete function
   return (
     <div>
-      {title}
+      {field_first_name}
       {" -- "}
-      <span>{field_eventdate.split('T')[0]}</span>
+      {field_last_name}
       {" -- "}
-      <button onClick={handleClick}>
-        edit
+      {field_email}
+      {" -- "}
+      {field_interests}
+      {" -- "}
+      {field_first_name}
+      <button>
+          delete
       </button>
-      {" -- "}
-      <a href={`/participants/${id}`}>List of Participants</a>
     </div>
   );
 };
@@ -104,8 +106,8 @@ const NodeItem = ({id, drupal_internal__nid, title, field_eventdate, contentList
 /**
  * Component to render when there are no events to display.
  */
-const NoData = () => (
-  <div>No events found.</div>
+const NoParticipants = () => (
+  <div>No participants found.</div>
 );
 
 /**
@@ -114,10 +116,10 @@ const NoData = () => (
  * Retrieves events from Drupal's JSON:API and then displays them along with
  * admin features to create, update, and delete events.
  */
-const NodeReadWrite = () => {
+
+const Participants = () => {
   const [content, updateContent] = useState([]);
   const [filter, setFilter] = useState(null);
-  const [showNodeAdd, setShowNodeAdd] = useState(false);
 
   //auth.login('admin', 'admin');
 
@@ -125,8 +127,9 @@ const NodeReadWrite = () => {
     // This should point to your local Drupal instance. Alternatively, for React
     // applications embedded in a Drupal theme or module this could also be set
     // to a relative path.
-    const url = `/jsonapi/node/event?fields[node--event]=id,drupal_internal__nid,title,field_eventdate&sort=-created&page[limit]=10`;
-
+    /*const url = `/jsonapi/participant/event_participant?fields[participant--event_participant]=id,drupal_internal__id,field_event,field_first_name,field_last_name,field_email,field_interests,field_event&filter[field_event]=`
+    + {this.props.match.params.eid} + `&sort=-created&page[limit]=100`;*/
+    const url = `/jsonapi/participant/event_participant?fields[participant--event_participant]=id,drupal_internal__id,field_event,field_first_name,field_last_name,field_email,field_interests,field_event&sort=-created&page[limit]=100`;
     const headers = new Headers({
       Accept: 'application/vnd.api+json',
     });
@@ -156,14 +159,14 @@ const NodeReadWrite = () => {
 
   return (
     <div>
-      <h2>Events</h2>
+      <h2>Participants</h2>
       {content.length ? (
         <>
           <label htmlFor="filter">Type to filter:</label>{" "}
           <input
             type="text"
             name="filter"
-            placeholder="Find the Event"
+            placeholder="Find the Participant"
             onChange={(event => setFilter(event.target.value.toLowerCase()))}
           />
           <hr/>
@@ -171,14 +174,16 @@ const NodeReadWrite = () => {
             // If there's a `filter` apply it to the list of nodes.
             content.filter((item) => {
               if (filter) {
-                const title = item.attributes.title ? item.attributes.title.toLowerCase() : '';
-                const field_eventdate = item.attributes.field_eventdate ? item.attributes.field_eventdate : '';
-                return (title.includes(filter) || field_eventdate.includes(filter)) ? item : false;
+                const field_first_name = item.attributes.field_first_name ? item.attributes.field_first_name.toLowerCase() : '';
+                const field_last_name = item.attributes.field_last_name ? item.attributes.field_last_name.toLowerCase() : '';
+                const field_email = item.attributes.field_email ? item.attributes.field_email.toLowerCase() : '';
+                const field_interests = item.attributes.field_interests ? item.attributes.field_interests.toLowerCase() : '';
+                return (field_first_name.includes(filter) || field_last_name.includes(filter) || field_email.includes(filter) || field_interests.includes(filter)) ? item : false;
               }
 
               return item;
             }).map((item) => (
-              <NodeItem
+              <ParticipantItem
                 key={item.id}
                 id={item.id}
                 updateContent={updateContent}
@@ -189,25 +194,10 @@ const NodeReadWrite = () => {
           }
         </>
       ) : (
-        <NoData />
-      )}
-      <hr />
-      {showNodeAdd ? (
-        <>
-          <h3>Add a new event</h3>
-          <NodeAdd
-            onSuccess={onNodeAddSuccess}
-          />
-        </>
-      ) : (
-        <p>
-          Do you have something new?
-          {" "}
-          <button onClick={() => setShowNodeAdd(true)}>Add Event</button>
-        </p>
+        <NoParticipants />
       )}
     </div>
   );
 };
 
-export default NodeReadWrite;
+export default Participants;
