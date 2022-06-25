@@ -21,7 +21,6 @@ Date.prototype.toAPI = function() {
 const auth = getAuthClient();
 
 const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
-  console.log(sticky);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const [result, setResult] = useState({
@@ -34,7 +33,7 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
 
   const defaultValues = {
     title: title ? title : '',
-    sticky: sticky ? sticky : false,
+    sticky: sticky ? sticky : 0,
     field_eventdate: field_eventdate ? field_eventdate : now.toAPI(),
   };
 
@@ -52,13 +51,12 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
     event.preventDefault();
 
     const fetchUrl = id ? `/jsonapi/node/event/${id}` : `/jsonapi/node/event`;
-
     let data = {
       "data": {
         "type": "node--event",
         "attributes": {
           "title": `${values.title}`,
-          "sticky": `${values.sticky}`,
+          "sticky": `${values.sticky == true || values.sticky == 1 ? 1 : 0}`,
           "field_eventdate": `${startDate.toAPI()}`
         }
       }
@@ -132,7 +130,7 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
       </div>
     )
   }
-
+  console.log(values);
   return (
     <div>
       {(result.success || result.error) &&
@@ -159,8 +157,9 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
         <br/>
         <input
           name="sticky"
-          type="checkbox"
-          defaultChecked={values.sticky}
+          type="text"
+          value={values.sticky == true ? 1: 0}
+          placeholder="Is Active?"
           onChange={handleInputChange}
         /> Is Active?
         <br/>

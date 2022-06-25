@@ -63,6 +63,7 @@ const NodeItem = ({id, drupal_internal__nid, title, sticky, field_eventdate, con
 
   // Show the item with admin options.
   if (showAdminOptions) {
+
     return (
       <div>
         <hr/>

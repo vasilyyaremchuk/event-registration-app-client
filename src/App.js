@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import GetActiveEvent from "./components/GetActiveEvent";
 import LoginForm from "./components/LoginForm";
-import NodeReadWrite from './components/NodeReadWrite';
 import Participants from './components/Participants';
 
 export default function App() {
@@ -16,7 +15,6 @@ export default function App() {
           <Route path="/dashboard" element={
             <>
               <LoginForm />
-              <NodeReadWrite />
             </>
           } />
           <Route path="/participants/:eid" element={

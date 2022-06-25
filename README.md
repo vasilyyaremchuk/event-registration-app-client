@@ -11,7 +11,9 @@ This solution is based on https://github.com/DrupalizeMe/react-and-drupal-exampl
 
 # Usage
 
-There is public Participant registartion form
+There is public Participant registartion form of the front page.
+
+The dashboard with login is on the /dashboard page.
 
 # Potential Issues and Improvments
 
@@ -33,6 +35,8 @@ only one the most resent will be on the front page.
 see the issue https://www.drupal.org/project/drupal/issues/3260839
 
 6. There is the ability to delete Participants without edit in admin.
+
+7. In node edit form we need to switch Active field to Checkbox for usability.
 
 # Related Projects
 

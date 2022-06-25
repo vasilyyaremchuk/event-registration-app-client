@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import NodeReadWrite from './NodeReadWrite';
 import { getAuthClient } from '../utils/auth';
 
 const auth = getAuthClient();
@@ -50,12 +51,15 @@ const LoginForm = () => {
 
   if (isLoggedIn) {
     return(
-      <div>
-        <p>You're currently logged in.</p>
-        <button onClick={() => auth.logout().then(setLoggedIn(false))}>
-          Logout
-        </button>
-      </div>
+      <>
+        <div>
+          <p>You're currently logged in.</p>
+          <button onClick={() => auth.logout().then(setLoggedIn(false))}>
+            Logout
+          </button>
+        </div>
+        <NodeReadWrite />
+      </>
     );
   }
 
