@@ -30,6 +30,8 @@ function isValidData(data) {
  *   Drupal node.nid of the event.
  * @param {string} title
  *   Title of the event.
+ * @param {bulian} sticky
+ *   Is Active?
  * @param {string} field_eventdate
  *   field_eventdate of the event, contains HTML.
  * @param {array} contentList
@@ -37,7 +39,7 @@ function isValidData(data) {
  * @param {function} updateContent
  *   useState function to update contentList.
  */
-const NodeItem = ({id, drupal_internal__nid, title, field_eventdate, contentList, updateContent}) => {
+const NodeItem = ({id, drupal_internal__nid, title, sticky, field_eventdate, contentList, updateContent}) => {
   const [showAdminOptions, setShowAdminOptions] = useState(false);
 
   function handleClick(event) {
@@ -68,6 +70,7 @@ const NodeItem = ({id, drupal_internal__nid, title, field_eventdate, contentList
         <NodeEdit
           id={id}
           title={title}
+          sticky={sticky}
           field_eventdate={field_eventdate}
           onSuccess={onEditSuccess}
         />
@@ -78,6 +81,7 @@ const NodeItem = ({id, drupal_internal__nid, title, field_eventdate, contentList
         <NodeDelete
           id={id}
           title={title}
+          sticky={sticky}
           onSuccess={onDeleteSuccess}
         />
         <hr/>
@@ -125,8 +129,7 @@ const NodeReadWrite = () => {
     // This should point to your local Drupal instance. Alternatively, for React
     // applications embedded in a Drupal theme or module this could also be set
     // to a relative path.
-    const url = `/jsonapi/node/event?fields[node--event]=id,drupal_internal__nid,title,field_eventdate&sort=-created&page[limit]=10`;
-
+    const url = `/jsonapi/node/event?fields[node--event]=id,drupal_internal__nid,title,sticky,field_eventdate&sort=-created&page[limit]=10`;
     const headers = new Headers({
       Accept: 'application/vnd.api+json',
     });

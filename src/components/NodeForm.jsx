@@ -20,8 +20,8 @@ Date.prototype.toAPI = function() {
 
 const auth = getAuthClient();
 
-const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
-
+const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
+  console.log(sticky);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const [result, setResult] = useState({
@@ -34,6 +34,7 @@ const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
 
   const defaultValues = {
     title: title ? title : '',
+    sticky: sticky ? sticky : false,
     field_eventdate: field_eventdate ? field_eventdate : now.toAPI(),
   };
 
@@ -57,6 +58,7 @@ const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
         "type": "node--event",
         "attributes": {
           "title": `${values.title}`,
+          "sticky": `${values.sticky}`,
           "field_eventdate": `${startDate.toAPI()}`
         }
       }
@@ -154,6 +156,13 @@ const NodeForm = ({id, title, field_eventdate, onSuccess}) => {
           name="field_eventdate"
           onChange={date => setStartDate(date)}
         />
+        <br/>
+        <input
+          name="sticky"
+          type="checkbox"
+          defaultChecked={values.sticky}
+          onChange={handleInputChange}
+        /> Is Active?
         <br/>
         <input
           name="submit"

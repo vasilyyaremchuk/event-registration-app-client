@@ -55,7 +55,7 @@ export function getAuthClient(config = {}) {
     formData.append('password', password);
     try {
       const response = await fetch(`${config.base}/oauth/token`, {
-        method: 'post',
+        method: 'POST',
         headers: new Headers({
           'Accept': 'application/json',
         }),
@@ -157,7 +157,7 @@ export function getAuthClient(config = {}) {
     formData.append('refresh_token', refresh_token);
 
     return(refreshPromises[refresh_token] = fetch(`${config.base}/oauth/token`, {
-      method: 'post',
+      method: 'POST',
       headers: new Headers({
         'Accept': 'application/json',
       }),

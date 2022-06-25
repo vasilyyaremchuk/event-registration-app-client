@@ -7,7 +7,7 @@
 export default function config() {
   const serverConfig = {
     // Base URL of your Drupal site.
-    base: 'http://ffw.lndo.site',
+    base: 'https://event-server.lndo.site/',
     // Name to use when storing the token in localStorage.
     token_name: 'drupal-oauth-token',
     // OAuth client ID - get from Drupal.
