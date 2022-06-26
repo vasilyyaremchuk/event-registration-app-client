@@ -40,6 +40,9 @@ see the issue https://www.drupal.org/project/drupal/issues/3260839
 
 8. List of Participants is publicaly available. We need to add some check if user logged in on client and aligne permissions on the server. But there is impossible to delete participant in anonimous state on the server side.
 
+9. There is 404 issue when you deploy to Netlify, but it could be fixed by the solution from
+https://gist.github.com/rickyhaswifi/1d3a208362f8f25de9c9f84b6a1ceea6
+
 # Related Projects
 
 https://github.com/vasilyyaremchuk/event-registration-app-server
@@ -51,3 +54,5 @@ https://github.com/vasilyyaremchuk/event-registration-app-lambda
 https://github.com/DrupalizeMe/react-and-drupal-examples/tree/master/react-decoupled
 
 https://drupalize.me/tutorial/create-fully-decoupled-react-application?p=3253
+
+https://gist.github.com/rickyhaswifi/1d3a208362f8f25de9c9f84b6a1ceea6
