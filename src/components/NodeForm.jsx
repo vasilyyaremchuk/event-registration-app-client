@@ -5,11 +5,11 @@ import DatePicker from "react-datepicker";
 // import required css from library
 import "react-datepicker/dist/react-datepicker.css";
 
-Date.prototype.toAPI = function() {
-  var mm = this.getMonth() + 1; // getMonth() is zero-based
-  var dd = this.getDate();
+function toAPI(date) {
+  var mm = date.getMonth() + 1; // getMonth() is zero-based
+  var dd = date.getDate();
 
-  return [this.getFullYear(),
+  return [date.getFullYear(),
           '-',
           (mm>9 ? '' : '0') + mm,
           '-',
@@ -34,7 +34,7 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
   const defaultValues = {
     title: title ? title : '',
     sticky: sticky ? sticky : 0,
-    field_eventdate: field_eventdate ? field_eventdate : now.toAPI(),
+    field_eventdate: field_eventdate ? field_eventdate : toAPI(now),
   };
 
   const [startDate, setStartDate] = useState(new Date(defaultValues.field_eventdate));
@@ -60,7 +60,7 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
         "attributes": {
           "title": `${values.title}`,
           "sticky": `${isChecked ? 1 : 0}`,
-          "field_eventdate": `${startDate.toAPI()}`
+          "field_eventdate": `${toAPI(startDate)}`
         }
       }
     };

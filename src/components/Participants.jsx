@@ -128,7 +128,7 @@ const Participants = () => {
 
   let { eid } = useParams();
 
-  useEffect((eid) => {
+  useEffect(() => {
     // This should point to your local Drupal instance. Alternatively, for React
     // applications embedded in a Drupal theme or module this could also be set
     // to a relative path.
