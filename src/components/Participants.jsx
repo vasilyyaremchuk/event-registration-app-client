@@ -126,9 +126,15 @@ const Participants = () => {
   const [content, updateContent] = useState([]);
   const [filter, setFilter] = useState(null);
 
-  let { eid } = useParams();
+  const { eid } = useParams(); // TBD: use that approach
 
   useEffect(() => {
+
+    // https://stackoverflow.com/questions/58235681/react-routers-useparams-cause-useeffect-to-rerun
+    /*getData(eid);
+    if (eid !== undefined) {
+      getGroup({ eid });
+    }*/
     // This should point to your local Drupal instance. Alternatively, for React
     // applications embedded in a Drupal theme or module this could also be set
     // to a relative path.
@@ -149,7 +155,7 @@ const Participants = () => {
         }
       })
       .catch(err => console.log('There was an error accessing the API', err));
-    }, []);
+    }, [eid]);
 
   return (
     <div>
