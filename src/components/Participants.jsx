@@ -128,7 +128,7 @@ const Participants = () => {
 
   let { eid } = useParams();
 
-  useEffect(() => {
+  useEffect((eid) => {
     // This should point to your local Drupal instance. Alternatively, for React
     // applications embedded in a Drupal theme or module this could also be set
     // to a relative path.
@@ -150,18 +150,6 @@ const Participants = () => {
       })
       .catch(err => console.log('There was an error accessing the API', err));
     }, []);
-
-  // Handle updates to state when a node is added.
-  function onNodeAddSuccess(data) {
-    // Add the new item to the top of the list.
-    content.unshift(data);
-    // Note the use of [...content] here, this is because we're
-    // computing new state based on previous state and need to use a
-    // functional update. https://reactjs.org/docs/hooks-reference.html#functional-updates
-    // [...content] syntax creates a new array with the values of
-    // content, and updates the state to that new array.
-    updateContent([...content]);
-  }
 
   return (
     <div>
@@ -199,7 +187,7 @@ const Participants = () => {
             ))
           }
           <hr/>
-          <a href={ serverConfiguration.base + '/participants/' + eid } target="_blank">Export CSV</a>
+          <a href={ serverConfiguration.base + '/participants/' + eid } target="_blank" rel="noopener noreferrer">Export CSV</a>
         </>
       ) : (
         <NoParticipants />
