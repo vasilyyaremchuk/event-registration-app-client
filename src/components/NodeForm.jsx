@@ -45,18 +45,21 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
     const {name, value} = event.target;
     setValues({...values, [name]: value});
   };
+  const [isChecked, setIsChecked] = useState(defaultValues.sticky);
+  const handleOnChange = () => {
+    setIsChecked(!isChecked);
+  };
 
   const handleSubmit = (event) => {
     setSubmitting(true);
     event.preventDefault();
-
     const fetchUrl = id ? `/jsonapi/node/event/${id}` : `/jsonapi/node/event`;
     let data = {
       "data": {
         "type": "node--event",
         "attributes": {
           "title": `${values.title}`,
-          "sticky": `${values.sticky == true || values.sticky == 1 ? 1 : 0}`,
+          "sticky": `${isChecked ? 1 : 0}`,
           "field_eventdate": `${startDate.toAPI()}`
         }
       }
@@ -130,7 +133,7 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
       </div>
     )
   }
-  console.log(values);
+
   return (
     <div>
       {(result.success || result.error) &&
@@ -157,10 +160,10 @@ const NodeForm = ({id, title, sticky, field_eventdate, onSuccess}) => {
         <br/>
         <input
           name="sticky"
-          type="text"
-          value={values.sticky == true ? 1: 0}
-          placeholder="Is Active?"
-          onChange={handleInputChange}
+          type="checkbox"
+          value="1"
+          checked={isChecked}
+          onChange={handleOnChange}
         /> Is Active?
         <br/>
         <input

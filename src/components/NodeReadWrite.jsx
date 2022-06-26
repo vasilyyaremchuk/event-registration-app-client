@@ -67,7 +67,7 @@ const NodeItem = ({id, drupal_internal__nid, title, sticky, field_eventdate, con
     return (
       <div>
         <hr/>
-        Admin options for {title}
+        Edit <strong>{title}</strong>
         <NodeEdit
           id={id}
           title={title}
@@ -77,7 +77,7 @@ const NodeItem = ({id, drupal_internal__nid, title, sticky, field_eventdate, con
         />
         <hr/>
         <button onClick={handleClick}>
-          cancel
+          close the form
         </button>
         <NodeDelete
           id={id}
@@ -93,7 +93,9 @@ const NodeItem = ({id, drupal_internal__nid, title, sticky, field_eventdate, con
   // Show just the item.
   return (
     <div>
+      {sticky ? '*' : ''}
       {title}
+      {sticky ? '*' : ''}
       {" -- "}
       <span>{field_eventdate.split('T')[0]}</span>
       {" -- "}

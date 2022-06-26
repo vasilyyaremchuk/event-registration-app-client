@@ -34,17 +34,17 @@ only one the most resent will be on the front page.
 5. If you can't login with
 see the issue https://www.drupal.org/project/drupal/issues/3260839
 
-6. There is the ability to delete Participants without edit in admin.
+6. There is only the ability to delete Participants without edit in admin. I'm not sure that we need edit for that prototype version but it can be added.
 
-7. In node edit form we need to switch Active field to Checkbox for usability.
+7. We need pager on Participant list and Event list.
+
+8. List of Participants is publicaly available. We need to add some check if user logged in on client and aligne permissions on the server. But there is impossible to delete participant in anonimous state on the server side.
 
 # Related Projects
 
 https://github.com/vasilyyaremchuk/event-registration-app-server
 
 https://github.com/vasilyyaremchuk/event-registration-app-lambda
-
-
 
 ## References
 
